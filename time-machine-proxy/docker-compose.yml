@@ -1,0 +1,10 @@
+services:
+  mitmproxy:
+    build: .
+    container_name: time-machine-proxy
+    restart: unless-stopped
+    ports:
+      - "8888:8888"   # proxy HTTP(S)
+      - "8081:8081"   # UI Web
+    volumes:
+      - ./data:/home/mitmproxy/.mitmproxy
