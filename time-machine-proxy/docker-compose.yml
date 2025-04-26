@@ -1,10 +1,19 @@
+
+volumes:
+  mitm_data:           # <-- named volume
+
 services:
   mitmproxy:
-    build: .
+    image: mitmproxy/mitmproxy:11.0.2   # usa a imagem oficial
     container_name: time-machine-proxy
     restart: unless-stopped
     ports:
-      - "8888:8888"   # proxy HTTP(S)
-      - "8081:8081"   # UI Web
+      - "8888:8888"   # proxy http(s)
+      - "8081:8081"   # web UI
     volumes:
-      - ./data:/home/mitmproxy/.mitmproxy
+      - mitm_data:/home/mitmproxy/.mitmproxy
+    command: >
+      mitmweb
+      --mode regular
+      --listen-host 0.0.0.0 --listen-port 8888
+      --web-host 0.0.0.0   --web-port 8081
